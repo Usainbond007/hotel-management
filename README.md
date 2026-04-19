@@ -103,7 +103,7 @@ The project follows the MVC (Model View Controller) design pattern with a dedica
 - **Controller** — LoginController and MainController handling all user interactions and business logic
 - **DAO** — RoomDAO, CustomerDAO, BookingDAO and DashboardDAO handling all SQL queries using PreparedStatements
 - **DBConnection** — Singleton class managing the MySQL database connection loaded from db.properties
-- 
+
 ## Tech Stack
 - Java 21
 - JavaFX 21
