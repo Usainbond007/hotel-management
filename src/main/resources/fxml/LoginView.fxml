@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<StackPane xmlns:fx="http://javafx.com/fxml"
+           fx:controller="com.hotel.controller.LoginController"
+           prefWidth="900" prefHeight="600"
+           stylesheets="@/style.css"
+           styleClass="login-background">
+
+    <VBox styleClass="frosted-card" alignment="CENTER" spacing="20"
+          maxWidth="380" maxHeight="480">
+
+        <VBox alignment="CENTER" spacing="5">
+            <Label text="Alpine Chalet" styleClass="hotel-title"/>
+            <Label text="MOUNTAIN RESORT &amp; SPA" styleClass="hotel-subtitle"/>
+        </VBox>
+
+        <Separator opacity="0.3"/>
+
+        <VBox spacing="8">
+            <Label text="Username" styleClass="login-label"/>
+            <TextField fx:id="usernameField" promptText="Enter username"
+                       styleClass="login-field"/>
+        </VBox>
+
+        <VBox spacing="8">
+            <Label text="Password" styleClass="login-label"/>
+            <PasswordField fx:id="passwordField" promptText="Enter password"
+                           styleClass="login-field"/>
+        </VBox>
+
+        <Label fx:id="errorLabel" text="" styleClass="error-label"/>
+
+        <Button text="Sign In" onAction="#handleLogin"
+                styleClass="login-button"/>
+
+        <Label text="© 2026 Alpine Chalet. All rights reserved."
+               style="-fx-text-fill: #4a6a8a; -fx-font-size: 11px;"/>
+
+    </VBox>
+
+</StackPane>

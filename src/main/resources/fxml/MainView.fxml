@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<HBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.hotel.controller.MainController"
+      prefWidth="1100" prefHeight="700"
+      stylesheets="@/style.css">
+
+    <VBox styleClass="sidebar">
+        <Label text="Alpine Chalet" styleClass="sidebar-title"/>
+        <Label text="MANAGEMENT SYSTEM" styleClass="sidebar-subtitle"/>
+
+        <Separator opacity="0.2"/>
+
+        <Button fx:id="btnDashboard" text="  Dashboard" styleClass="sidebar-button"
+                onAction="#showDashboard"/>
+        <Button fx:id="btnRooms" text="  Rooms" styleClass="sidebar-button"
+                onAction="#showRooms"/>
+        <Button fx:id="btnCustomers" text="  Customers" styleClass="sidebar-button"
+                onAction="#showCustomers"/>
+        <Button fx:id="btnBookings" text="  Bookings" styleClass="sidebar-button"
+                onAction="#showBookings"/>
+        <Button fx:id="btnBilling" text="  Billing" styleClass="sidebar-button"
+                onAction="#showBilling"/>
+
+        <Region VBox.vgrow="ALWAYS"/>
+
+        <Separator opacity="0.2"/>
+        <Button text="  Logout" styleClass="sidebar-logout" onAction="#handleLogout"/>
+    </VBox>
+
+    <StackPane fx:id="contentArea" styleClass="content-area" HBox.hgrow="ALWAYS">
+
+        <!-- Dashboard Page -->
+        <VBox fx:id="dashboardPage" spacing="25">
+            <VBox spacing="4">
+                <Label text="Dashboard" styleClass="page-title"/>
+                <Label text="Welcome back — here's what's happening today" styleClass="page-subtitle"/>
+            </VBox>
+            <HBox spacing="15">
+                <VBox styleClass="stat-card" spacing="8">
+                    <Label text="TOTAL ROOMS" styleClass="stat-label"/>
+                    <Label fx:id="statTotalRooms" text="0" styleClass="stat-number"/>
+                </VBox>
+                <VBox styleClass="stat-card" spacing="8">
+                    <Label text="AVAILABLE" styleClass="stat-label"/>
+                    <Label fx:id="statAvailableRooms" text="0"
+                           style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #27ae60;"/>
+                </VBox>
+                <VBox styleClass="stat-card" spacing="8">
+                    <Label text="OCCUPIED" styleClass="stat-label"/>
+                    <Label fx:id="statOccupiedRooms" text="0"
+                           style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #e74c3c;"/>
+                </VBox>
+                <VBox styleClass="stat-card" spacing="8">
+                    <Label text="TOTAL GUESTS" styleClass="stat-label"/>
+                    <Label fx:id="statTotalCustomers" text="0" styleClass="stat-number"/>
+                </VBox>
+            </HBox>
+            <HBox spacing="15">
+                <VBox styleClass="stat-card" spacing="8">
+                    <Label text="TODAY'S CHECK-INS" styleClass="stat-label"/>
+                    <Label fx:id="statCheckIns" text="0"
+                           style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #4a90d9;"/>
+                </VBox>
+                <VBox styleClass="stat-card" spacing="8">
+                    <Label text="TODAY'S CHECK-OUTS" styleClass="stat-label"/>
+                    <Label fx:id="statCheckOuts" text="0"
+                           style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #f5a623;"/>
+                </VBox>
+                <VBox styleClass="stat-card" spacing="8" prefWidth="200">
+                    <Label text="TOTAL REVENUE" styleClass="stat-label"/>
+                    <Label fx:id="statRevenue" text="₹0"
+                           style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #1a2a4a;"/>
+                </VBox>
+            </HBox>
+            <Button text="Refresh Stats" styleClass="btn-primary"
+                    onAction="#handleRefreshDashboard"/>
+        </VBox>
+
+        <!-- Rooms Page -->
+        <VBox fx:id="roomsPage" spacing="20" visible="false">
+            <VBox spacing="4">
+                <Label text="Room Management" styleClass="page-title"/>
+                <Label text="Add and manage hotel rooms" styleClass="page-subtitle"/>
+            </VBox>
+            <HBox spacing="20">
+                <VBox styleClass="card" spacing="15" prefWidth="300">
+                    <Label text="Add New Room"
+                           style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #1a2a4a;"/>
+                    <VBox spacing="6">
+                        <Label text="Room Number" styleClass="form-label"/>
+                        <TextField fx:id="roomNumberField" styleClass="form-field" promptText="e.g. 101"/>
+                    </VBox>
+                    <VBox spacing="6">
+                        <Label text="Room Type" styleClass="form-label"/>
+                        <ComboBox fx:id="roomTypeCombo" styleClass="form-field" prefWidth="220"/>
+                    </VBox>
+                    <VBox spacing="6">
+                        <Label text="Price Per Day (₹)" styleClass="form-label"/>
+                        <TextField fx:id="roomPriceField" styleClass="form-field" promptText="e.g. 1500"/>
+                    </VBox>
+                    <HBox spacing="10">
+                        <Button text="Add Room" styleClass="btn-success" onAction="#handleAddRoom"/>
+                        <Button text="Available Only" styleClass="btn-primary" onAction="#handleViewAvailable"/>
+                    </HBox>
+                    <Button text="View All Rooms" styleClass="btn-primary" onAction="#handleViewAllRooms"/>
+                    <Button text="Delete Selected" styleClass="btn-danger" onAction="#handleDeleteRoom"/>
+                    <Label fx:id="roomStatusLabel" text="" styleClass="status-success"/>
+                </VBox>
+                <VBox spacing="10" HBox.hgrow="ALWAYS">
+                    <HBox spacing="10">
+                        <TextField fx:id="roomSearchField" styleClass="form-field"
+                                   promptText="Search by room number, type or status..."
+                                   HBox.hgrow="ALWAYS"/>
+                        <Button text="Search" styleClass="btn-primary" onAction="#handleRoomSearch"/>
+                        <Button text="Clear" styleClass="btn-warning" onAction="#handleClearRoomSearch"/>
+                    </HBox>
+                    <TableView fx:id="roomTable" VBox.vgrow="ALWAYS">
+                        <columns>
+                            <TableColumn fx:id="roomNumberCol" text="Room No." prefWidth="100"/>
+                            <TableColumn fx:id="roomTypeCol" text="Type" prefWidth="120"/>
+                            <TableColumn fx:id="roomPriceCol" text="Price/Day" prefWidth="120"/>
+                            <TableColumn fx:id="roomStatusCol" text="Status" prefWidth="120"/>
+                        </columns>
+                    </TableView>
+                </VBox>
+            </HBox>
+        </VBox>
+
+        <!-- Customers Page -->
+        <VBox fx:id="customersPage" spacing="20" visible="false">
+            <VBox spacing="4">
+                <Label text="Customer Management" styleClass="page-title"/>
+                <Label text="Add and manage customer records" styleClass="page-subtitle"/>
+            </VBox>
+            <HBox spacing="20">
+                <VBox styleClass="card" spacing="15" prefWidth="300">
+                    <Label text="Add New Customer"
+                           style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #1a2a4a;"/>
+                    <VBox spacing="6">
+                        <Label text="Full Name" styleClass="form-label"/>
+                        <TextField fx:id="customerNameField" styleClass="form-field" promptText="e.g. John Doe"/>
+                    </VBox>
+                    <VBox spacing="6">
+                        <Label text="Contact Number" styleClass="form-label"/>
+                        <TextField fx:id="customerContactField" styleClass="form-field" promptText="10-digit number"/>
+                    </VBox>
+                    <VBox spacing="6">
+                        <Label text="Room Number" styleClass="form-label"/>
+                        <TextField fx:id="customerRoomField" styleClass="form-field" promptText="e.g. 101"/>
+                    </VBox>
+                    <HBox spacing="10">
+                        <Button text="Add Customer" styleClass="btn-success" onAction="#handleAddCustomer"/>
+                        <Button text="Remove Selected" styleClass="btn-danger" onAction="#handleRemoveCustomer"/>
+                    </HBox>
+                    <Button text="View Customers" styleClass="btn-primary" onAction="#handleViewCustomers"/>
+                    <Label fx:id="customerStatusLabel" text="" styleClass="status-success"/>
+                </VBox>
+                <VBox spacing="10" HBox.hgrow="ALWAYS">
+                    <HBox spacing="10">
+                        <TextField fx:id="customerSearchField" styleClass="form-field"
+                                   promptText="Search by name or contact..."
+                                   HBox.hgrow="ALWAYS"/>
+                        <Button text="Search" styleClass="btn-primary" onAction="#handleCustomerSearch"/>
+                        <Button text="Clear" styleClass="btn-warning" onAction="#handleClearCustomerSearch"/>
+                    </HBox>
+                    <TableView fx:id="customerTable" VBox.vgrow="ALWAYS">
+                        <columns>
+                            <TableColumn fx:id="customerIdCol" text="ID" prefWidth="60"/>
+                            <TableColumn fx:id="customerNameCol" text="Name" prefWidth="150"/>
+                            <TableColumn fx:id="customerContactCol" text="Contact" prefWidth="130"/>
+                            <TableColumn fx:id="customerRoomCol" text="Room No." prefWidth="100"/>
+                        </columns>
+                    </TableView>
+                </VBox>
+            </HBox>
+        </VBox>
+
+        <!-- Bookings Page -->
+        <VBox fx:id="bookingsPage" spacing="20" visible="false">
+            <VBox spacing="4">
+                <Label text="Booking Management" styleClass="page-title"/>
+                <Label text="Book and manage room reservations" styleClass="page-subtitle"/>
+            </VBox>
+            <HBox spacing="20">
+                <VBox styleClass="card" spacing="15" prefWidth="300">
+                    <Label text="New Booking"
+                           style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #1a2a4a;"/>
+                    <VBox spacing="6">
+                        <Label text="Customer ID" styleClass="form-label"/>
+                        <TextField fx:id="bookingCustomerIdField" styleClass="form-field" promptText="e.g. 1"/>
+                    </VBox>
+                    <VBox spacing="6">
+                        <Label text="Room Number" styleClass="form-label"/>
+                        <TextField fx:id="bookingRoomField" styleClass="form-field" promptText="e.g. 101"/>
+                    </VBox>
+                    <VBox spacing="6">
+                        <Label text="Check-In Date" styleClass="form-label"/>
+                        <DatePicker fx:id="checkInPicker" prefWidth="220"/>
+                    </VBox>
+                    <VBox spacing="6">
+                        <Label text="Check-Out Date" styleClass="form-label"/>
+                        <DatePicker fx:id="checkOutPicker" prefWidth="220"/>
+                    </VBox>
+                    <HBox spacing="10">
+                        <Button text="Book Room" styleClass="btn-success" onAction="#handleBookRoom"/>
+                        <Button text="Checkout" styleClass="btn-warning" onAction="#handleCheckout"/>
+                    </HBox>
+                    <Button text="View Bookings" styleClass="btn-primary" onAction="#handleViewBookings"/>
+                    <Label fx:id="bookingStatusLabel" text="" styleClass="status-success"/>
+                </VBox>
+                <VBox spacing="10" HBox.hgrow="ALWAYS">
+                    <HBox spacing="10">
+                        <DatePicker fx:id="searchCheckInPicker" promptText="From date"/>
+                        <DatePicker fx:id="searchCheckOutPicker" promptText="To date"/>
+                        <Button text="Filter" styleClass="btn-primary" onAction="#handleBookingFilter"/>
+                        <Button text="Clear" styleClass="btn-warning" onAction="#handleClearBookingFilter"/>
+                    </HBox>
+                    <TableView fx:id="bookingTable" VBox.vgrow="ALWAYS">
+                        <columns>
+                            <TableColumn fx:id="bookingIdCol" text="ID" prefWidth="60"/>
+                            <TableColumn fx:id="bookingCustomerCol" text="Customer ID" prefWidth="100"/>
+                            <TableColumn fx:id="bookingRoomCol" text="Room No." prefWidth="100"/>
+                            <TableColumn fx:id="bookingCheckInCol" text="Check-In" prefWidth="120"/>
+                            <TableColumn fx:id="bookingCheckOutCol" text="Check-Out" prefWidth="120"/>
+                            <TableColumn fx:id="bookingCostCol" text="Total Cost" prefWidth="100"/>
+                        </columns>
+                    </TableView>
+                </VBox>
+            </HBox>
+        </VBox>
+
+        <!-- Billing Page -->
+        <VBox fx:id="billingPage" spacing="20" visible="false" alignment="TOP_CENTER">
+            <VBox spacing="4">
+                <Label text="Billing" styleClass="page-title"/>
+                <Label text="Generate guest billing receipts" styleClass="page-subtitle"/>
+            </VBox>
+            <HBox spacing="20" alignment="TOP_CENTER">
+                <VBox styleClass="card" spacing="15" prefWidth="300">
+                    <Label text="Generate Bill"
+                           style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #1a2a4a;"/>
+                    <VBox spacing="6">
+                        <Label text="Room Number" styleClass="form-label"/>
+                        <TextField fx:id="billingRoomField" styleClass="form-field" promptText="e.g. 101"/>
+                    </VBox>
+                    <VBox spacing="6">
+                        <Label text="Customer ID" styleClass="form-label"/>
+                        <TextField fx:id="billingCustomerIdField" styleClass="form-field" promptText="e.g. 1"/>
+                    </VBox>
+                    <Button text="Generate Bill" styleClass="btn-primary" onAction="#handleGenerateBill"/>
+                    <Button fx:id="downloadInvoiceBtn" text="Download Invoice"
+                            styleClass="btn-success" onAction="#handleDownloadInvoice"
+                            disable="true"/>
+                </VBox>
+                <TextArea fx:id="billOutput" prefHeight="400" prefWidth="500"
+                          editable="false" wrapText="true"
+                          style="-fx-font-size: 14px; -fx-font-family: monospace;"/>
+            </HBox>
+        </VBox>
+
+    </StackPane>
+</HBox>

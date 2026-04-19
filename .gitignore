@@ -1,0 +1,12 @@
+# Database credentials
+src/main/resources/db.properties
+
+# Maven build output
+target/
+
+# VS Code settings
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
